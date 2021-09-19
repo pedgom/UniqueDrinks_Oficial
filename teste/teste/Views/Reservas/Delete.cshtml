@@ -5,69 +5,71 @@
     ViewData["Title"] = "Eliminar";
 }
 
-<br />
-<br />
-<br />
-<br />
-<br />
+<div class="container">
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
 
-<h1>Eliminar</h1>
+    <h1>Eliminar</h1>
 
-<h3>Tem a certeza que pretende eliminar esta Reserva?</h3>
-<div>
-    <h4>Reservas</h4>
-    <hr />
-    <dl class="row">
+    <h3>Tem a certeza que pretende eliminar esta Reserva?</h3>
+    <div>
+        <h4>Reservas</h4>
+        <hr />
+        <dl class="row">
 
 
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.DataReserva)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.DataReserva)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.DataEntrega)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.DataEntrega)
-        </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.DataReserva)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.DataReserva)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.DataEntrega)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.DataEntrega)
+            </dd>
 
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Quantidade)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Quantidade)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Bebida)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Bebida.Id)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Cliente)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Cliente.Email)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Bebida)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Bebida.Id)
-        </dd>
-    </dl>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Quantidade)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Quantidade)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Bebida)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Bebida.Id)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Cliente)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Cliente.Email)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Bebida)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Bebida.Id)
+            </dd>
+        </dl>
 
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Eliminar" class="btn btn-danger" /> |
-        <a asp-action="Index">Voltar à lista</a>
-    </form>
+        <form asp-action="Delete">
+            <input type="hidden" asp-for="Id" />
+            <input type="submit" value="Eliminar" class="btn btn-danger" /> |
+            <a asp-action="Index">Voltar à lista</a>
+        </form>
+    </div>
+
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
 </div>
-
-<br />
-<br />
-<br />
-<br />
-<br />

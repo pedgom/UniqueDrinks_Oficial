@@ -4,95 +4,98 @@
     ViewData["Title"] = "Index";
 }
 
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
 
-<h1>Index</h1>
+<div class="container">
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
 
-@if (User.IsInRole("Gestor"))
-{
-    <p>
-        <a asp-action="Create">Nova Bebida</a>
-    </p>
-}
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-            @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Nome)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Descricao)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Preco)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Imagem)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Stock)
-            </th>
-            
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Descricao)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Preco)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Imagem)
-            </td>
-            <td>
-                <a asp-action="Details" asp-route-id="@item.Id">
-                    <img src="@Url.Content("~/Imagens/Bebidas/")@item.Imagem" height="60" alt="imagem da bebida @item.Nome" title="@item.Nome" />
-                </a>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Stock)
-            </td>
-            
-            <td>
+    <h1>Bebidas</h1>
 
-                <a asp-action="Details" asp-route-id="@item.Id">Detalhes</a> |
+    @if (User.IsInRole("Gestor"))
+    {
+        <p>
+            <a asp-action="Create">Nova Bebida</a>
+        </p>
+    }
+    <table class="table">
+        <thead>
+            <tr>
+                <th align="center">
+                    @Html.DisplayNameFor(model => model.Id)
+                </th>
+                <th align="center">
+                    @Html.DisplayNameFor(model => model.Imagem)
+                </th>
+                <th align="center">
+                    @Html.DisplayNameFor(model => model.Nome)
+                </th>
+                <th align="center">
+                    @Html.DisplayNameFor(model => model.Descricao)
+                </th>
+                <th align="center">
+                    @Html.DisplayNameFor(model => model.Preco)
+                </th>
 
-            </td>
-        </tr>
-        }
-    </tbody>
-</table>
+                <th align="center">
+                    @Html.DisplayNameFor(model => model.Stock)
+                </th>
 
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id">
+                        <img src="@Url.Content("~/Imagens/Bebidas/")@item.Imagem" height="300" />
+                    </a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descricao)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Preco)
+                </td>
+
+               
+                <td>
+                    @Html.DisplayFor(modelItem => item.Stock)
+                </td>
+
+                <td>
+
+                    <a asp-action="Details" asp-route-id="@item.Id">Detalhes</a> |
+
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+</div>

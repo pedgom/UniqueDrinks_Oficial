@@ -5,58 +5,61 @@
     ViewData["Title"] = "Details";
 }
 
-<br />
-<br />
-<br />
-<br />
-<br />
+<div class="container">
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
 
-<h1>Detalhes</h1>
+    <h1>Detalhes</h1>
 
-<div>
-    <h4>Bebidas</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Nome)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Nome)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Descricao)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Descricao)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Preco)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Preco)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Imagem)
-        </dt>
-        <dd class="col-sm-10">
-            <img src="~/Imagens/@Model.Imagem" height="200" alt="imagem da Bebida @Model.Nome" title="@Model.Nome" />
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Stock)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Stock)
-        </dd>
+    <div>
+        <h4>Bebidas</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Nome)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Nome)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Descricao)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Descricao)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Preco)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Preco)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Imagem)
+            </dt>
+            <dd class="col-sm-10">
+                <img src="~/Imagens/Bebidas/@Model.Imagem" height="200" alt="imagem da Bebida @Model.Nome" title="@Model.Nome" />
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Stock)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Stock)
+            </dd>
+
+        </dl>
+    </div>
+    <div>
        
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Editar</a> |
-    <a asp-action="Index">Voltar à lista</a>
-</div>
+        <a asp-action="Index">Voltar à lista</a>
+    </div>
 
-<br />
-<br />
-<br />
-<br />
-<br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+
+</div>
