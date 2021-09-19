@@ -1,0 +1,57 @@
+﻿@page
+@model teste.Areas.Identity.Pages.Account.RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div>
+    <br /><br /><br /><br /><br />
+
+    <h1>@ViewData["Title"]</h1>
+
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-route-returnUrl="@Model.ReturnUrl" method="post" enctype="multipart/form-data">
+                <h4>Criar uma nova conta</h4>
+                <div class="form-group">
+                    <label asp-for="Input.Nome"></label>
+                    <input asp-for="Input.Nome" class="form-control" />
+                    <span asp-validation-for="Input.Nome" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.Email"></label>
+                    <input asp-for="Input.Email" class="form-control" />
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.Password"></label>
+                    <input asp-for="Input.Password" class="form-control" />
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.ConfirmPassword"></label>
+                    <input asp-for="Input.ConfirmPassword" class="form-control" />
+                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.Datanasc"></label>
+                    <input asp-for="Input.Datanasc" class="form-control" />
+                    <span asp-validation-for="Input.Datanasc" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Input.Fotografia">Fotografia</label>
+                    
+                    <input type="file" name="fotoCliente" accept=".jpeg,.jpg,.png" style="color:blue;" />
+                </div>
+                <button type="submit" class="btn btn-primary">Registar</button>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+    @section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+    }
+

@@ -1,0 +1,83 @@
+﻿@model IEnumerable<teste.Models.Reservas>
+
+@{
+    ViewData["Title"] = "Reservas";
+}
+
+<div class="container">
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+
+    <h1>Reservas</h1>
+
+    <p>
+        <a asp-action="Create">Criar nova Reserva</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.DataReserva)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DataEntrega)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.Quantidade)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Bebida)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Cliente)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DataReserva)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DataEntrega)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Quantidade)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Bebida.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Cliente.Email)
+                    </td>
+                    <td>
+
+                        <a asp-action="Details" asp-route-id="@item.Id">Detalhes</a> |
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+
+
+</div>

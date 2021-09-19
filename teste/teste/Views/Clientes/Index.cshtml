@@ -1,0 +1,75 @@
+﻿@model IEnumerable<teste.Models.Clientes>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<br />
+<br />
+<br />
+<br />
+<br />
+
+<h1>Clientes</h1>
+
+<p>
+    <a asp-action="Create">Criar um novo Cliente</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Contacto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Fotografia)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Contacto)
+                </td>
+
+
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id">
+                        <img src="@Url.Content("~/Imagens/Clientes/")@item.Fotografia" height="60" alt="Imagem do Cliente @item.Nome" title="@item.Nome" />
+                    </a>
+                </td>
+                <td>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <text>
+                           
+                            <a asp-action="Details" asp-route-id="@item.Id">Detalhes</a> |
+                            
+                        </text>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<br />
+<br />
+<br />
+<br />
+<br />
