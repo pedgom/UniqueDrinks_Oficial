@@ -12,10 +12,19 @@ using teste.Models;
 
 namespace teste.Controllers
 {
+    //Authorização refere-se como um processo que determina o que um utilizador é capaz de fazer  
+    //Neste caso específico, apenas Clientes com conta podem aceder às Bebidas
     [Authorize]
     public class ReservasController : Controller
     {
+        /// <summary>
+        /// variavel para identificar a base de dados
+        /// </summary>
         private readonly Teste _context;
+
+        /// <summary>
+        /// variavel que contém os dados de ficheiros guardados no servidor
+        /// </summary>
         private readonly UserManager<ApplicationUser> _userManager;
 
         public ReservasController(Teste context, UserManager<ApplicationUser> userManager)
@@ -38,7 +47,8 @@ namespace teste.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                //caso o id seja nulo retorna-se à página Index das Reservas
+                return RedirectToAction("Index", "Reservas");
             }
 
             var reservas = await _context.Reservas
@@ -47,12 +57,14 @@ namespace teste.Controllers
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (reservas == null)
             {
-                return NotFound();
+                //caso não exista uma Reserva para observar os detalhes retorna-se à página Index das Reservas
+                return RedirectToAction("Index", "Reservas");
             }
 
             var user = await _userManager.GetUserAsync(User);
             var util = await _context.Clientes.FirstOrDefaultAsync(r => r.Username == user.Id);
 
+            //retorno da View das Reservas
             return View(reservas);
         }
 
@@ -76,12 +88,13 @@ namespace teste.Controllers
         {
             if (ModelState.IsValid)
             {
+                // a data das apostas é definida automaticamente
                 reservas.DataReserva = DateTime.Now;
                 var cliente = await _userManager.GetUserAsync(User);
                 var util = await _context.Clientes.FirstOrDefaultAsync(r => r.Username == cliente.Id);
                 reservas.ClienteFK = util.Id;
-                _context.Update(util);
-                _context.Add(reservas);
+                _context.Update(util);// o utilizador é atualizado na base de dados
+                _context.Add(reservas);// é adicionada uma reserva à base de dados
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -96,13 +109,13 @@ namespace teste.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction("Index", "Reservas");
             }
 
             var reservas = await _context.Reservas.FindAsync(id);
             if (reservas == null)
             {
-                return NotFound();
+                return RedirectToAction("Index", "Reservas");
             }
             ViewData["BebidaFK"] = new SelectList(_context.Set<Bebidas>(), "Id", "Id", reservas.BebidaFK);
             ViewData["ClienteFK"] = new SelectList(_context.Set<Clientes>(), "Id", "Email", reservas.ClienteFK);
@@ -119,7 +132,7 @@ namespace teste.Controllers
         {
             if (id != reservas.Id)
             {
-                return NotFound();
+                return RedirectToAction("Index", "Reservas");
             }
 
             if (ModelState.IsValid)
@@ -133,7 +146,7 @@ namespace teste.Controllers
                 {
                     if (!ReservasExists(reservas.Id))
                     {
-                        return NotFound();
+                        return RedirectToAction("Index", "Reservas");
                     }
                     else
                     {
@@ -153,7 +166,7 @@ namespace teste.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction("Index", "Reservas");
             }
 
             var reservas = await _context.Reservas
@@ -162,7 +175,7 @@ namespace teste.Controllers
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (reservas == null)
             {
-                return NotFound();
+                return RedirectToAction("Index", "Reservas");
             }
 
             return View(reservas);

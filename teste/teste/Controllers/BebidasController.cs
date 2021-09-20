@@ -15,13 +15,26 @@ using teste.Models;
 
 namespace teste.Controllers
 {
+    //Authorização refere-se como um processo que determina o que um utilizador é capaz de fazer  
+    //Neste caso específico, apenas Clientes com conta podem aceder às Bebidas
     [Authorize]
     public class BebidasController : Controller
     {
+
+        /// <summary>
+        /// variavel para identificar a base de dados
+        /// </summary>
         private readonly Teste _context;
 
+        /// <summary>
+        /// variavel que contém os dados de ficheiros guardados no servidor
+        /// </summary>
         private readonly IWebHostEnvironment _caminho;
 
+
+        /// <summary>
+        /// variavel que recolhe os dados de um utilizador autenticado
+        /// </summary>
         private readonly UserManager<ApplicationUser> _userManager;
 
         public BebidasController(Teste context, IWebHostEnvironment caminho, UserManager<ApplicationUser> userManager)
@@ -32,6 +45,10 @@ namespace teste.Controllers
         }
 
         // GET: Bebidas
+        /// <summary>
+        /// lista os dados das bebidas
+        /// </summary>
+        /// <returns></returns>
         public async Task<IActionResult> Index()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -40,18 +57,23 @@ namespace teste.Controllers
         }
 
         // GET: Bebidas/Details/5
+        /// <summary>
+        /// mostra os detalhes das bebidas
+        /// <returns></returns>
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
-                return NotFound();
+                //caso o id seja nulo retorna-se à página Index das Bebidas
+                return RedirectToAction("Index", "Bebidas");
             }
 
             var bebidas = await _context.Bebidas
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (bebidas == null)
             {
-                return NotFound();
+                //caso nao seja possivel encontrar uma bebida retorna-se à página Index das bebidas
+                return RedirectToAction("Index", "Bebidas");
             }
 
             var user = await _userManager.GetUserAsync(User);
@@ -61,6 +83,10 @@ namespace teste.Controllers
         }
 
         // GET: Bebidas/Create
+        /// <summary>
+        /// Apenas o gestor cria bebidas
+        /// </summary>
+        /// <returns></returns>
         [Authorize(Roles = "Gestor")]
         public IActionResult Create()
         {
@@ -76,29 +102,35 @@ namespace teste.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Nome,Descricao,Preco,Imagem,Stock,CategoriaFK")] Bebidas bebida, IFormFile ImagemBeb)
         {
+            // variáveis auxiliares
             string caminhoCompleto = "";
             bool hImagem = false;
 
+            //caso nao exista imagem é atribuida uma imagem default
             if (ImagemBeb == null) { bebida.Imagem = "noDrink.png"; }
             else
             {
+                //as extensões aceites são ".jpeg"; ".jpg" e ".png"
                 if (ImagemBeb.ContentType == "image/jpeg" || ImagemBeb.ContentType == "image/jpg" || ImagemBeb.ContentType == "image/png")
-                {               
+                {
+                    // o ficheiro é uma imagem válida
+                    // preparar a imagem para ser guardada no disco rígido
                     Guid g;
                     g = Guid.NewGuid();
                     string extensao = Path.GetExtension(ImagemBeb.FileName).ToLower();
                     string nomebeb = g.ToString() + extensao;
 
-                   
+                    // onde guardar o ficheiro
                     caminhoCompleto = Path.Combine(_caminho.WebRootPath, "Imagens", nomebeb);
 
                     bebida.Imagem = nomebeb;
 
+                    // assinalar que existe imagem e é preciso guardá-la no disco rígido
                     hImagem = true;
                 }
                 else
                 {
-                  
+                    //caso exista imagem, mas não tem uma das extensões exigidas, é atribuida uma imagem default
                     bebida.Imagem = "noDrink.png";
                 }
 
@@ -111,6 +143,7 @@ namespace teste.Controllers
                 {
                     _context.Add(bebida);
                     await _context.SaveChangesAsync();
+                    // se há imagem, vou guardá-la no disco rígido
                     if (hImagem)
                     {
                         using var stream = new FileStream(caminhoCompleto, FileMode.Create);
@@ -134,18 +167,24 @@ namespace teste.Controllers
         }
 
         // GET: Bebidas/Edit/5
+        // GET: Jogos/Edit/5
+        /// <summary>
+        /// edição dos dados de uma bebida por parte do gestor
+        /// </summary>
         [Authorize(Roles = "Gestor")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
-                return RedirectToAction("Index", "Home");
+                //caso o id seja nulo retorna-se à página Index das Bebidas
+                return RedirectToAction("Index", "Bebidas");
             }
 
             var bebidas = await _context.Bebidas.FindAsync(id);
             if (bebidas == null)
             {
-                return NotFound();
+                //caso nao seja possivel identificar a bebida retorna-se à página Index das Bebidas
+                return RedirectToAction("Index", "Bebidas");
             }
             
             return View(bebidas);
@@ -161,13 +200,15 @@ namespace teste.Controllers
         {
             if (id != bebidas.Id)
             {
-                return NotFound();
+                //caso o id seja nulo retorna-se à página Index das Bebidas
+                return RedirectToAction("Index", "Bebidas");
             }
 
             if (ModelState.IsValid)
             {
                 try
                 {
+                    
                     var tree = await _context.Bebidas.Include(r => r.ListaDeReservas).FirstOrDefaultAsync(b => b.Id == bebidas.Id);
 
 
@@ -203,7 +244,7 @@ namespace teste.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction("Index", "Bebidas");
             }
 
             var bebidas = await _context.Bebidas
@@ -211,7 +252,7 @@ namespace teste.Controllers
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (bebidas == null)
             {
-                return NotFound();
+                return RedirectToAction("Index", "Bebidas");
             }
 
             return View(bebidas);

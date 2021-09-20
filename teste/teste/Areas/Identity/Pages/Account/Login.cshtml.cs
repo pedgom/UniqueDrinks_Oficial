@@ -43,14 +43,24 @@ namespace teste.Areas.Identity.Pages.Account
 
         public class InputModel
         {
+            /// <summary>
+            /// Atributo do Email do Cliente
+            /// </summary>
             [Required]
             [EmailAddress]
             public string Email { get; set; }
 
+            /// <summary>
+            /// Atributo da password do cliente
+            /// </summary>
             [Required]
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
+
+            /// <summary>
+            /// Atributo para guardar e relembrar os dados do cliente
+            /// </summary>
             [Display(Name = "Remember me?")]
             public bool RememberMe { get; set; }
         }

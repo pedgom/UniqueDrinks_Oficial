@@ -59,35 +59,54 @@ namespace teste.Areas.Identity.Pages.Account
 
         public class InputModel
         {
+            /// <summary>
+            /// Atributo do Nome do cliente que é de preenchimento obrigatório
+            /// </summary>
             [Required(ErrorMessage = "O {0} é de preenchimento obrigatório")]
             [StringLength(40, ErrorMessage = "O {0} não pode ter mais de {1} caracteres.")]
             [RegularExpression("[A-ZÓÂÍ][a-zçáéíóúàèìòùãõäëïöüâêîôûñ]+(( | d[ao](s)? | e |-|'| d')[A-ZÓÂÍ][a-zçáéíóúàèìòùãõäëïöüâêîôûñ]+){1,3}",
                                 ErrorMessage = "Deve escrever entre 2 e 4 nomes, começados por uma Maiúscula, seguidos de minúsculas.")]
             public string Nome { get; set; }
 
+
+            /// <summary>
+            /// Atributo do Email do Cliente que é de preenchimento obrigatório
+            /// </summary>
             [Required(ErrorMessage = "O {0} é de preenchimento obrigatório")]
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
 
+            /// <summary>
+            /// Atributo da Password do Cliente que é de preenchimento obrigatório
+            /// </summary>
             [Required(ErrorMessage = "A {0} é de preenchimento obrigatório. Lembrar que a password deve ter no mínimo 1 letra minúscula, 1 letra maiúscula, 1 número e 1 caractere especial.")]
             [StringLength(100, ErrorMessage = "A {0} deve ter entre {2} e {1} caracteres.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
             public string Password { get; set; }
 
+            /// <summary>
+            /// Campo para colocar novamente a Password como um método de segurança 
+            /// </summary>
             [Required(ErrorMessage = "A {0} é de preenchimento obrigatório")]
             [DataType(DataType.Password)]
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "As password´s não coincidem.")]
             public string ConfirmPassword { get; set; }
 
-            
+            /// <summary>
+            /// Atributo da Data de Nascimento do Cliente que é de preenchimento obrigatório
+            /// </summary>
             [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
             [Display(Name = "Data de Nascimento")]
             [Required(ErrorMessage = "A {0} é de preenchimento obrigatório")]
             public Nullable<System.DateTime> Datanasc { get; set; }
 
+            /// <summary>
+            /// Atributo da Fotografia do Cliente que pode ser nulo
+            /// sendo que deste modo fica com uma foto default
+            /// </summary>
             public string Fotografia { get; set; }
         }
 
@@ -104,14 +123,16 @@ namespace teste.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
 
-               
+                //variáveis auxiliares
                 string caminhoCompleto = "";
                 string nomeFoto = "";
                 bool hImagem = false;
 
+                //caso a foto seja nula, o utilizador fica com uma foto de default "noUser.png"
                 if (fotoCliente == null) { nomeFoto = "../noUser.jpg"; }
                 else
                 {
+                    //aceita fotos com extensão .jpeg | .jpg | .png
                     if (fotoCliente.ContentType == "image/jpeg" || fotoCliente.ContentType == "image/jpg" || fotoCliente.ContentType == "image/png")
                     {
                  
@@ -131,12 +152,12 @@ namespace teste.Areas.Identity.Pages.Account
                     }
                     else
                     {
-                       
+                        // há imagem, mas não é do tipo correto
                         nomeFoto = "../noUser.png";
                     }
                 }
 
-                
+                //criação de um novo cliente na ApplicationUser
                 var cliente = new ApplicationUser
                 {
                     UserName = Input.Email,
@@ -146,6 +167,7 @@ namespace teste.Areas.Identity.Pages.Account
                     RegisterTime = DateTime.Now
                 };
 
+                //criação de um novo cliente em Clientes
                 var utilizador = new Clientes
                 {
                     Nome = Input.Nome,
@@ -160,6 +182,7 @@ namespace teste.Areas.Identity.Pages.Account
 
                 var result = await _userManager.CreateAsync(cliente, Input.Password);
 
+                //caso seja possível criar o cliente
                 if (result.Succeeded)
                 {
                     

@@ -15,16 +15,24 @@ using teste.Models;
 
 namespace teste.Controllers
 {
+    //Authorização refere-se como um processo que determina o que um utilizador é capaz de fazer  
+    //Neste caso específico, apenas Clientes com conta podem aceder às Bebidas
     [Authorize]
     public class ClientesController : Controller
     {
         /// <summary>
-        /// variável que identifica a BD do projeto
+        /// variavel para identificar a base de dados
         /// </summary>
         private readonly Teste _context;
 
+        /// <summary>
+        /// variavel que contém os dados de ficheiros guardados no servidor
+        /// </summary>
         private readonly IWebHostEnvironment _caminho;
 
+        /// <summary>
+        /// variavel que recolhe os dados de um utilizador autenticado
+        /// </summary>
         private readonly UserManager<ApplicationUser> _userManager;
 
         public ClientesController(Teste context, IWebHostEnvironment caminho, UserManager<ApplicationUser> userManager)
@@ -54,14 +62,16 @@ namespace teste.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                //caso o id seja nulo retorna-se à página Index dos Clientes
+                return RedirectToAction("Index", "Clientes");
             }
 
             var clientes = await _context.Clientes.Include(r => r.ListaDeReservas).Where(c => c.Id == id)
                                                    .FirstOrDefaultAsync();
             if (clientes == null)
             {
-                return NotFound();
+                //caso o id seja nulo retorna-se à página Index dos Clientes
+                return RedirectToAction("Index", "Clientes");
             }
             var cliente = await _userManager.GetUserAsync(User);
             var util = await _context.Clientes.FirstOrDefaultAsync(r => r.Username == cliente.Id);
@@ -84,32 +94,37 @@ namespace teste.Controllers
         [Authorize(Roles = "Gestor")]
         public async Task<IActionResult> Create([Bind("Id,Nome,Email,Contacto,Datanasc,Fotografia")] Clientes cliente, IFormFile fotoCliente)
         {
+            // variáveis auxiliares
             string caminhoCompleto = "";
             bool himage = false;
 
+            //caso nao exista imagem é atribuida uma imagem default
             if (fotoCliente == null) { cliente.Fotografia = "noUser.jpg"; }
             else
             {
+                
+                //as extensões aceites são ".jpeg"; ".jpg" e ".png"
                 if (fotoCliente.ContentType == "image/jpeg" || fotoCliente.ContentType == "image/jpg" || fotoCliente.ContentType == "image/png")
                 {
-                   
+                    // o ficheiro é uma imagem válida
+                    // preparar a imagem para ser guardada no disco rígido
                     Guid g;
                     g = Guid.NewGuid();
                     string extensao = Path.GetExtension(fotoCliente.FileName).ToLower();
                     string nome = g.ToString() + extensao;
 
-                    
+                    // onde guardar o ficheiro
                     caminhoCompleto = Path.Combine(_caminho.WebRootPath, "Imagens", nome);
 
                    
                     cliente.Fotografia = nome;
 
-                   
+                    // assinalar que existe imagem e é preciso guardá-la no disco rígido
                     himage = true;
                 }
                 else
                 {
-               
+                    //caso exista imagem, mas não tem uma das extensões exigidas, é atribuida uma imagem default
                     cliente.Fotografia = "noUser.jpg";
                 }
             }
@@ -141,13 +156,15 @@ namespace teste.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                //caso o id seja nulo retorna-se à página Index dos Clientes
+                return RedirectToAction("Index", "Clientes");
             }
 
             var clientes = await _context.Clientes.FindAsync(id);
             if (clientes == null)
             {
-                return NotFound();
+                //caso nao seja possivel identificar o cliente retorna-se à página Index dos Clientes
+                return RedirectToAction("Index", "Clientes");
             }
             return View(clientes);
         }
@@ -162,34 +179,40 @@ namespace teste.Controllers
         {
             if (id != cliente.Id)
             {
-                return NotFound();
+                return RedirectToAction("Index", "Clientes");
             }
 
+            // variáveis auxiliares
             string caminhoCompleto = "";
             bool hImagem = false;
 
+
+            //caso nao exista imagem é atribuida uma imagem default
             if (fotoCliente == null) { cliente.Fotografia = "noUser.png"; }
             else
             {
+                //as extensões aceites são ".jpeg"; ".jpg" e ".png"
                 if (fotoCliente.ContentType == "image/jpeg" || fotoCliente.ContentType == "image/jpg" || fotoCliente.ContentType == "image/png")
                 {
 
+                    // o ficheiro é uma imagem válida
+                    // preparar a imagem para ser guardada no disco rígido
                     Guid g;
                     g = Guid.NewGuid();
                     string extensao = Path.GetExtension(fotoCliente.FileName).ToLower();
                     string nome = g.ToString() + extensao;
 
-
+                    // onde guardar o ficheiro
                     caminhoCompleto = Path.Combine(_caminho.WebRootPath, "Imagens", nome);
 
 
                     cliente.Fotografia = nome;
-
+                    // assinalar que existe imagem e é preciso guardá-la no disco rígido
                     hImagem = true;
                 }
                 else
                 {
-
+                    //caso exista imagem, mas não tem uma das extensões exigidas, é atribuida uma imagem default
                     cliente.Fotografia = "noUser.png";
                 }
             }
@@ -210,7 +233,7 @@ namespace teste.Controllers
                 {
                     if (!ClientesExists(cliente.Id))
                     {
-                        return NotFound();
+                        return RedirectToAction("Index", "Clientes");
                     }
                     else
                     {
@@ -228,14 +251,14 @@ namespace teste.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction("Index", "Clientes");
             }
 
             var clientes = await _context.Clientes
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (clientes == null)
             {
-                return NotFound();
+                return RedirectToAction("Index", "Clientes");
             }
 
             return View(clientes);
