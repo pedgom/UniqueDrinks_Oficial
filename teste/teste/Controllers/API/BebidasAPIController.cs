@@ -87,12 +87,13 @@ namespace teste.Controllers.API
         // POST: api/BebidasAPI
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Bebidas>> PostBebidas(Bebidas bebidas)
+        public async Task<ActionResult<Bebidas>> PostBebidas([FromForm]Bebidas bebida, IFormFile UploadImagem)
         {
-            _context.Bebidas.Add(bebidas);
+            bebida.Imagem = "";
+            _context.Bebidas.Add(bebida);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetBebidas", new { id = bebidas.Id }, bebidas);
+            return CreatedAtAction("GetBebidas", new { id = bebida.Id }, bebida);
         }
 
         // DELETE: api/BebidasAPI/5
